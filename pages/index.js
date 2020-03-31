@@ -66,8 +66,7 @@ export default () => {
       setConnected(true);
     });
 
-    wsRef.current.addEventListener('close', (e) => {
-      console.log(e);
+    wsRef.current.addEventListener('close', () => {
       setConnected(false);
       stopStreaming();
     });
