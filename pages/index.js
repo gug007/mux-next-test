@@ -47,7 +47,7 @@ export default () => {
 
     ctx.fillStyle = '#ff0000';
     ctx.font = '50px monospace';
-    ctx.fillText(name, 50, 100);
+    ctx.fillText('Oh hai', 50, 100);
 
     requestAnimationFrame(updateCanvas);
   };
@@ -61,7 +61,7 @@ export default () => {
     setStreaming(true);
 
     const protocol = window.location.protocol.replace('http', 'ws');
-    wsRef.current = new WebSocket(`${protocol}://${window.location.host}/rtmp?key=${streamKey}`);
+    wsRef.current = new WebSocket(`${protocol}//${window.location.host}/rtmp?key=${streamKey}`);
 
     wsRef.current.addEventListener('open', function open() {
       setConnected(true);

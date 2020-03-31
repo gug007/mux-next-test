@@ -27,7 +27,7 @@ app.prepare().then(() => {
 
   wss.on('connection', (ws, req) => {
     console.log('Streaming socket connected');
-    ws.send('WELL HELLO THERE FRIEND');
+    ws.send('WELL HELLO THERE FRIEND!');
 
     const queryString = url.parse(req.url).search;
     const params = new URLSearchParams(queryString);
@@ -74,7 +74,7 @@ app.prepare().then(() => {
 
     // FFmpeg outputs all of its messages to STDERR. Let's log them to the console.
     ffmpeg.stderr.on('data', (data) => {
-      ws.send('ffmpeg got some data');
+      ws.send('ffmpeg got some data.');
       console.log('FFmpeg STDERR:', data.toString());
     });
 
