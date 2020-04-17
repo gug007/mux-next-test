@@ -26,7 +26,7 @@ app.prepare().then(() => {
   });
 
   wss.on('connection', (ws, req) => {
-    console.log('Streaming socket connected.');
+    console.log('Streaming socket connected');
     ws.send('WELL HELLO THERE FRIEND');
 
     const queryString = url.parse(req.url).search;
