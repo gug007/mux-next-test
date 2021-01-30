@@ -1,4 +1,4 @@
-# mux streamr
+# mux stream
 
 ```javascript
 brew install ffmpeg
