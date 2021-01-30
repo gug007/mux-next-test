@@ -34,6 +34,8 @@ app.prepare().then(() => {
     // const params = new URLSearchParams(queryString);
     const key = process.env.STREAM_KEY;
 
+    console.log('STREAM_KEY:', process.env.STREAM_KEY)
+
     const rtmpUrl = `rtmps://global-live.mux.com/app/${key}`;
 
     const ffmpeg = child_process.spawn("ffmpeg", [
