@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from 'react';
-import Head from 'next/head';
+import React, { useEffect, useState, useRef } from "react";
+import Head from "next/head";
 
 const CAMERA_CONSTRAINTS = {
   audio: true,
-  video: { width: 960, height: 540 }
+  video: { width: 960, height: 540 },
 };
 
 export default () => {
@@ -11,7 +11,7 @@ export default () => {
   const [cameraEnabled, setCameraEnabled] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const [streamKey, setStreamKey] = useState(null);
-  const [shoutOut, setShoutOut] = useState('you');
+  const [shoutOut, setShoutOut] = useState("you");
 
   const inputStreamRef = useRef();
   const videoRef = useRef();
@@ -44,7 +44,7 @@ export default () => {
       return;
     }
 
-    const ctx = canvasRef.current.getContext('2d');
+    const ctx = canvasRef.current.getContext("2d");
 
     ctx.drawImage(
       videoRef.current,
@@ -54,8 +54,8 @@ export default () => {
       videoRef.current.clientHeight
     );
 
-    ctx.fillStyle = '#ff0000';
-    ctx.font = '50px monospace';
+    ctx.fillStyle = "#ff0000";
+    ctx.font = "50px monospace";
     ctx.fillText(`Oh hi, ${nameRef.current}`, 5, 50);
 
     requestAnimationRef.current = requestAnimationFrame(updateCanvas);
@@ -69,16 +69,16 @@ export default () => {
   const startStreaming = () => {
     setStreaming(true);
 
-    const protocol = window.location.protocol.replace('http', 'ws');
+    const protocol = window.location.protocol.replace("http", "ws");
     wsRef.current = new WebSocket(
       `${protocol}//${window.location.host}/rtmp?key=${streamKey}`
     );
 
-    wsRef.current.addEventListener('open', function open() {
+    wsRef.current.addEventListener("open", function open() {
       setConnected(true);
     });
 
-    wsRef.current.addEventListener('close', () => {
+    wsRef.current.addEventListener("close", () => {
       setConnected(false);
       stopStreaming();
     });
@@ -89,28 +89,28 @@ export default () => {
     // https://hacks.mozilla.org/2016/04/record-almost-everything-in-the-browser-with-mediarecorder/
     const audioStream = new MediaStream();
     const audioTracks = inputStreamRef.current.getAudioTracks();
-    audioTracks.forEach(function(track) {
+    audioTracks.forEach(function (track) {
       audioStream.addTrack(track);
     });
 
     const outputStream = new MediaStream();
-    [audioStream, videoOutputStream].forEach(function(s) {
-        s.getTracks().forEach(function(t) {
-            outputStream.addTrack(t);
-        });
+    [audioStream, videoOutputStream].forEach(function (s) {
+      s.getTracks().forEach(function (t) {
+        outputStream.addTrack(t);
+      });
     });
-
 
     mediaRecorderRef.current = new MediaRecorder(outputStream, {
-      mimeType: 'video/webm',
-      videoBitsPerSecond: 3000000
+      mimeType: "video/webm",
+      videoBitsPerSecond: 3000000,
     });
 
-    mediaRecorderRef.current.addEventListener('dataavailable', e => {
+    mediaRecorderRef.current.addEventListener("dataavailable", (e) => {
+      console.log(111, e.data);
       wsRef.current.send(e.data);
     });
 
-    mediaRecorderRef.current.addEventListener('stop', () => {
+    mediaRecorderRef.current.addEventListener("stop", () => {
       stopStreaming();
       wsRef.current.close();
     });
@@ -125,11 +125,11 @@ export default () => {
   useEffect(() => {
     return () => {
       cancelAnimationFrame(requestAnimationRef.current);
-    }
+    };
   }, []);
 
   return (
-    <div style={{ maxWidth: '980px', margin: '0 auto' }}>
+    <div style={{ maxWidth: "980px", margin: "0 auto" }}>
       <Head>
         <title>Streamr</title>
       </Head>
@@ -144,7 +144,7 @@ export default () => {
       {cameraEnabled &&
         (streaming ? (
           <div>
-            <span>{connected ? 'Connected' : 'Disconnected'}</span>
+            <span>{connected ? "Connected" : "Disconnected"}</span>
             <button className="button button-outline" onClick={stopStreaming}>
               Stop Streaming
             </button>
@@ -154,7 +154,7 @@ export default () => {
             <input
               placeholder="Stream Key"
               type="text"
-              onChange={e => setStreamKey(e.target.value)}
+              onChange={(e) => setStreamKey(e.target.value)}
             />
             <button
               className="button button-outline"
@@ -168,7 +168,13 @@ export default () => {
       <div className="row">
         <div className="column">
           <h2>Input</h2>
-          <video ref={videoRef} controls width="100%" height="auto" muted></video>
+          <video
+            ref={videoRef}
+            controls
+            width="100%"
+            height="auto"
+            muted
+          ></video>
         </div>
         <div className="column">
           <h2>Output</h2>
@@ -176,7 +182,7 @@ export default () => {
           <input
             placeholder="Shout someone out!"
             type="text"
-            onChange={e => setShoutOut(e.target.value)}
+            onChange={(e) => setShoutOut(e.target.value)}
           />
         </div>
       </div>

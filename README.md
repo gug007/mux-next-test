@@ -6,6 +6,7 @@ A proof-of-concept for live streaming video from your browser to an RTMP endpoin
 
 For development you'll probably want to use `dev`, which will do little things like automatically
 ```javascript
+brew install ffmpeg
 $ npm install
 $ npm run dev
 ```
